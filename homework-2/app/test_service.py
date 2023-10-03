@@ -12,6 +12,10 @@ from app.service import (
 
 
 def setup_recipes():
+    """
+    Clear the database and create default values
+    """
+
     global recipes_dict
     recipes_dict.clear()
     recipes_dict.update({
@@ -27,6 +31,10 @@ def setup_recipes():
 
 
 def clear_recipes():
+    """
+    Clear the database and set next_id to 0
+    """
+    
     global recipes_dict
     recipes_dict.clear()
     global next_id

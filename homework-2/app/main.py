@@ -1,9 +1,13 @@
-from typing import List
-
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI
 
 from app.router import router
 
-app = FastAPI()
+app = FastAPI(
+    title="Recipe book",
+    description="Homework-2. Tests",
+    version="0.0.1",
+    docs_url="/docs",
+    redoc_url="/docs/redoc"
+)
 
 app.include_router(router)

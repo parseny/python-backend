@@ -8,6 +8,10 @@ from app.service import recipes_dict
 clinet = TestClient(app)
 
 def setup_recipes():
+    """
+    Clear the database and create default values
+    """
+
     global recipes_dict
     recipes_dict.clear()
     recipes_dict.update({
@@ -26,6 +30,18 @@ def setup_recipes():
          ]
 )
 def test_get_recipe(recipe_id, expected_result):
+    """
+    Test retrieving a recipe by its ID.
+    
+    Args:
+        recipe_id (int): The ID of the recipe to retrieve.
+        expected_result (tuple): A tuple containing the expected HTTP status
+        and the expected recipe data.
+        
+    - Checks successful retrieval for valid IDs.
+    - Ensures a 404 response for invalid IDs.
+    """
+
     response = clinet.get(f"/recipes/{recipe_id}")
     assert response.status_code == expected_result[0]
     if response.status_code == 200:
@@ -73,6 +89,18 @@ def test_get_recipe(recipe_id, expected_result):
     ]
 )
 def test_create_recipe(recipe, expected_result):
+    """
+    Test creating a new recipe.
+    
+    Args:
+        recipe (dict): The recipe data to be created.
+        expected_result (tuple): A tuple containing the expected HTTP status and
+        the expected recipe data after creation.
+        
+    - Validates successful creation with given inputs.
+    - Checks the returned data against expected results.
+    """
+
     setup_recipes()
     response = clinet.post(
         "/recipes/",
@@ -124,6 +152,20 @@ def test_create_recipe(recipe, expected_result):
         ]
 )
 def test_rate_a_recipe(recipe_id, rating, expected_result):
+    """
+    Test rating an existing recipe.
+    
+    Args:
+        recipe_id (int): The ID of the recipe to rate.
+        rating (float): The rating value to be added to the recipe.
+        expected_result (tuple): A tuple containing the expected HTTP status and
+        the expected recipe data after rating.
+        
+    - Evaluates successful rating for valid inputs.
+    - Checks rating aggregation on repeated ratings for a recipe.
+    - Ensures an error response for invalid rating values.
+    """
+
     response = clinet.post(f"/recipes/{recipe_id}/rate", params={"rating": rating})
     print("Expected:", expected_result[1])
     print("Received:", response.json())

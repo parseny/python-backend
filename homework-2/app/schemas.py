@@ -4,6 +4,10 @@ from pydantic import BaseModel
 
 
 class Recipe(BaseModel):
+    """
+    Recipe class to store recipe information
+    """
+
     name: str
     description: str
     rating: Optional[float] = 0.0

@@ -12,14 +12,41 @@ recipes_dict: Dict[int, Recipe] = {
 next_id = 5
 
 def get_multiple_recipes() -> List[Recipe]:
+    """
+    Retrieves a list of all available recipes.
+    
+    Returns:
+        List[Recipe]: A list containing all recipes.
+    """
+
     return list(recipes_dict.values())
 
 
 def get_recipe_by_id(recipe_id: int) -> Recipe:
+    """
+    Get a specific recipe by its ID.
+    
+    Args:
+        recipe_id (int): The ID of the desired recipe.
+        
+    Returns:
+        Recipe: The requested recipe if found. None otherwise.
+    """
+
     return recipes_dict.get(recipe_id)
 
 
 def add_recipe(recipe: Recipe) -> Recipe:
+    """
+    Add a new recipe to the collection.
+    
+    Args:
+        recipe (Recipe): The recipe object to be added.
+        
+    Returns:
+        Recipe: The added recipe.
+    """
+
     global next_id
     recipes_dict[next_id] = recipe
     next_id += 1
@@ -27,6 +54,20 @@ def add_recipe(recipe: Recipe) -> Recipe:
 
 
 def rate_recipe_by_id(recipe_id: int, rating: float) -> Optional[Recipe]:
+    """
+    Rate a specific recipe by its ID.
+    
+    Args:
+        recipe_id (int): The ID of the recipe to be rated.
+        rating (float): The rating value to be added to the recipe.
+        
+    Raises:
+        ValueError: If the rating is not between 0 and 5.0.
+        
+    Returns:
+        Optional[Recipe]: The rated recipe if found and rated. None otherwise.
+    """
+
     if not (0 < rating <= 5.0):
         raise ValueError("Invalid rating value. Rating should be between 0 and 5.0")
     recipe = recipes_dict.get(recipe_id)
@@ -39,4 +80,14 @@ def rate_recipe_by_id(recipe_id: int, rating: float) -> Optional[Recipe]:
 
 
 def remove_recipe(recipe_id: int) -> Optional[Recipe]:
+    """
+    Remove a specific recipe by its ID.
+    
+    Args:
+        recipe_id (int): The ID of the recipe to be removed.
+        
+    Returns:
+        Optional[Recipe]: The removed recipe if found. None otherwise.
+    """
+    
     return recipes_dict.pop(recipe_id, None)
