@@ -3,11 +3,26 @@ from typing import Dict, List, Optional
 from app.schemas import Recipe
 
 recipes_dict: Dict[int, Recipe] = {
-    0: Recipe(name="Spaghetti Carbonara", description="A classic Italian pasta dish with eggs, cheese, and bacon."),
-    1: Recipe(name="Chicken Curry", description="A fragrant Indian dish with spices, tomato, and chicken."),
-    2: Recipe(name="Burger", description="An American classic with a beef patty, lettuce, and tomato in a bun."),
-    3: Recipe(name="Fish Tacos", description="Mexican-inspired tacos with grilled fish and a tangy dressing."),
-    4: Recipe(name="Chocolate Cake", description="A rich and moist dessert loved worldwide.")
+    0: Recipe(
+        name="Spaghetti Carbonara", 
+        description="A classic Italian pasta dish with eggs, cheese, and bacon."
+        ),
+    1: Recipe(
+        name="Chicken Curry",
+        description="A fragrant Indian dish with spices, tomato, and chicken."
+        ),
+    2: Recipe(
+        name="Burger",
+        description="An American classic with a beef patty, lettuce, tomato in a bun."
+        ),
+    3: Recipe(
+        name="Fish Tacos",
+        description="Mexican-inspired tacos with grilled fish and a tangy dressing."
+        ),
+    4: Recipe(
+        name="Chocolate Cake",
+        description="A rich and moist dessert loved worldwide."
+        )
 }
 next_id = 5
 
@@ -89,5 +104,5 @@ def remove_recipe(recipe_id: int) -> Optional[Recipe]:
     Returns:
         Optional[Recipe]: The removed recipe if found. None otherwise.
     """
-    
+
     return recipes_dict.pop(recipe_id, None)
