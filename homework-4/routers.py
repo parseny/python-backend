@@ -7,8 +7,8 @@ router = APIRouter()
 celery_app = Celery('tasks', broker=RMQ_URL, backend=REDIS_URL)
 
 @router.post("/orders/create")
-async def start_create_task(description: str):
-    task = celery_app.send_task("tasks.accept_order", args=[description])
+async def start_create_task(address: str, description: str):
+    task = celery_app.send_task("tasks.accept_order", args=[address, description])
     result = task.get() if task.state == 'SUCCESS' else None
     return {"status": task.state, "task_id": task.id, "result": result}
 

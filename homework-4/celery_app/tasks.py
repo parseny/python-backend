@@ -6,7 +6,7 @@ from shared import order_items
 celery_app = Celery('tasks', broker=RMQ_URL, backend=REDIS_URL)
 
 @celery_app.task(name="tasks.accept_order")
-def accept_order(order_description: str) -> DeliveryOreder:
+def accept_order(order_address: str, order_description: str) -> DeliveryOreder:
     """
     Принять заказ и добавить в список заказов.
     
@@ -15,6 +15,7 @@ def accept_order(order_description: str) -> DeliveryOreder:
     """
     new_order = {
         "id": len(order_items),
+        "address": order_address,
         "description": order_description,
         "is_prepared": False,
         "is_delivered": False
@@ -39,7 +40,9 @@ def prepare_order(order_id: int) -> DeliveryOreder:
     if order_to_prepare:
         order_to_prepare["is_prepared"] = True
         deliver_order.delay(order_to_prepare["id"])
-    return DeliveryOreder(**order_to_prepare)
+        return DeliveryOreder(**order_to_prepare)
+    else:
+        return None
 
 
 @celery_app.task(name="tasks.deliver_order")
@@ -50,7 +53,13 @@ def deliver_order(order_id: int) -> DeliveryOreder:
     :param order_id: ID заказа для доставки.
     :return: DeliveryOreder
     """
-    order_to_deliver = next((item for item in order_items if item["id"] == order_id), None)
+    for item in order_items:
+        if item["id"] == order_id:
+            order_to_deliver = item
+        else:
+            order_to_deliver = None
     if order_to_deliver:
         order_to_deliver["is_delivered"] = True
-    return DeliveryOreder(**order_to_deliver)
+        return DeliveryOreder(**order_to_deliver)
+    else:
+        return None
