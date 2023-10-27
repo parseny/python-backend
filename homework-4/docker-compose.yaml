@@ -30,7 +30,7 @@ services:
     image: fastapi-image
     container_name: fastapi
     ports:
-      - "80:80"
+      - "8000"
     environment:
       RMQ_URL: ${RMQ_URL}
       REDIS_URL: ${REDIS_URL}
