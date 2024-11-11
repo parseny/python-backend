@@ -1,10 +1,8 @@
 from celery import Celery
-from config import REDIS_URL, RMQ_URL
+from celery_app.tasks import celery_app
 from fastapi import APIRouter
 
 router = APIRouter()
-
-celery_app = Celery('tasks', broker=RMQ_URL, backend=REDIS_URL)
 
 @router.post("/orders/create")
 async def start_create_task(address: str, description: str):
